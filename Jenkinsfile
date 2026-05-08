@@ -54,8 +54,8 @@ pipeline {
             }
 
             steps {
-                sshagent(['ec2-ssh-key']) {
-                    sh """
+               withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-key', keyFileVariable: 'KEY')]) {
+                 sh """
                         ssh -o StrictHostKeyChecking=no ubuntu@3.108.196.139 << 'EOF'
                         cd /home/ubuntu/devops
                         docker pull ${IMAGE_NAME}:stage
@@ -73,7 +73,7 @@ pipeline {
             }
 
             steps {
-                sshagent(['ec2-ssh-key']) {
+                   withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-key', keyFileVariable: 'KEY')]) {
                     sh """
                         ssh -o StrictHostKeyChecking=no ubuntu@3.108.196.139 << 'EOF'
                         cd /home/ubuntu/devops
