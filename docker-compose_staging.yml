@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ./App
+      args:
+        NODE_ENV: staging
+    container_name: app_staging
+    env_file:
+      - ./App/.env.staging
+    ports:
+      - "3002:3001"
+
+  db:
+    image: postgres:15
+    container_name: db_staging
+    environment:
+      POSTGRES_DB: users_staging
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres

@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ./App
+      args:
+        NODE_ENV: production
+    container_name: app_prod
+    env_file:
+      - ./App/.env.production
+    ports:
+      - "3001:3001"
+
+  db:
+    image: postgres:15
+    container_name: db_prod
+    environment:
+      POSTGRES_DB: users_prod
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

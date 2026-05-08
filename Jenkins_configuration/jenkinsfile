@@ -1,0 +1,74 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
+        SSH_CREDENTIALS = credentials('ec2-ssh-key')
+        IMAGE_NAME = "manalitekawade0804/nodjsapp/devops-app"
+    }
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                git branch: "${env.BRANCH_NAME}",
+                credentialsId: 'github-cred',
+                url: 'https://github.com/manali0804/Automate_Nodjs_DevOps_Project_Assessment-1'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh "docker build -t $IMAGE_NAME:${env.BRANCH_NAME} ."
+            }
+        }
+
+        stage('Login to DockerHub') {
+            steps {
+                sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+            }
+        }
+
+        stage('Push Image') {
+            steps {
+                sh "docker push $IMAGE_NAME:${env.BRANCH_NAME}"
+            }
+        }
+
+        stage('Deploy to Staging') {
+            when {
+                branch 'develop'
+            }
+            steps {
+                sshagent(['ec2-ssh-key-id']) {
+                    sh """
+                    ssh -o StrictHostKeyChecking=no ubuntu@YOUR_EC2_IP '
+                    docker pull $IMAGE_NAME:develop &&
+                    docker stop app_staging || true &&
+                    docker rm app_staging || true &&
+                    docker run -d --name app_staging -p 3002:3001 $IMAGE_NAME:develop
+                    '
+                    """
+                }
+            }
+        }
+
+        stage('Deploy to Production') {
+            when {
+                branch 'main'
+            }
+            steps {
+                sshagent(['ec2-ssh-key-id']) {
+                    sh """
+                    ssh -o StrictHostKeyChecking=no ubuntu@YOUR_EC2_IP '
+                    docker pull $IMAGE_NAME:main &&
+                    docker stop app_prod || true &&
+                    docker rm app_prod || true &&
+                    docker run -d --name app_prod -p 3001:3001 $IMAGE_NAME:main
+                    '
+                    """
+                }
+            }
+        }
+    }
+}
