@@ -11,43 +11,49 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                git branch: "${env.BRANCH_NAME}",
-                credentialsId: 'github-cred',
-                url: 'https://github.com/manali0804/Automate_Nodjs_DevOps_Project_Assessment-1'
+                checkout scm
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t $IMAGE_NAME:${env.BRANCH_NAME} ./App"
+                script {
+                    def branch = env.GIT_BRANCH?.replace("origin/", "") ?: "main"
+                    sh "docker build -t ${IMAGE_NAME}:${branch} ./App"
+                }
             }
         }
 
         stage('Login to DockerHub') {
             steps {
-                sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+                sh '''
+                    echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+                '''
             }
         }
 
         stage('Push Image') {
             steps {
-                sh "docker push $IMAGE_NAME:${env.BRANCH_NAME}"
+                script {
+                    def branch = env.GIT_BRANCH?.replace("origin/", "") ?: "main"
+                    sh "docker push ${IMAGE_NAME}:${branch}"
+                }
             }
         }
 
         stage('Deploy to Staging') {
             when {
-                branch 'develop'
+                branch 'stage'
             }
             steps {
-                sshagent(['ec2-ssh']) {
+                sshagent(['ec2-ssh-key']) {
                     sh """
-                    ssh -o StrictHostKeyChecking=no ubuntu@YOUR_EC2_IP '
-                    cd /home/ubuntu/devops &&
-                    docker pull $IMAGE_NAME:develop &&
-                    docker compose -f docker-compose_staging.yml down &&
-                    docker compose -f docker-compose_staging.yml up -d
-                    '
+                        ssh -o StrictHostKeyChecking=no ubuntu@YOUR_EC2_IP '
+                        cd /home/ubuntu/devops &&
+                        docker pull ${IMAGE_NAME}:stage &&
+                        docker compose -f docker-compose_staging.yml down &&
+                        docker compose -f docker-compose_staging.yml up -d
+                        '
                     """
                 }
             }
@@ -58,14 +64,14 @@ pipeline {
                 branch 'main'
             }
             steps {
-                sshagent(['ec2-ssh']) {
+                sshagent(['ec2-ssh-key']) {
                     sh """
-                    ssh -o StrictHostKeyChecking=no ubuntu@YOUR_EC2_IP '
-                    cd /home/ubuntu/devops &&
-                    docker pull $IMAGE_NAME:main &&
-                    docker compose -f docker-compose_production.yml down &&
-                    docker compose -f docker-compose_production.yml up -d
-                    '
+                        ssh -o StrictHostKeyChecking=no ubuntu@YOUR_EC2_IP '
+                        cd /home/ubuntu/devops &&
+                        docker pull ${IMAGE_NAME}:main &&
+                        docker compose -f docker-compose_production.yml down &&
+                        docker compose -f docker-compose_production.yml up -d
+                        '
                     """
                 }
             }
