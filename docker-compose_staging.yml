@@ -8,7 +8,7 @@ services:
         NODE_ENV: staging
     container_name: app_staging
     env_file:
-      - ./App/.env.staging
+      - App/.env.staging
     ports:
       - "3002:3001"
 

@@ -8,7 +8,7 @@ services:
         NODE_ENV: production
     container_name: app_prod
     env_file:
-      - ./App/.env.production
+      - App/.env.production
     ports:
       - "3001:3001"
 
