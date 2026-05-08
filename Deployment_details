@@ -1,0 +1,62 @@
+
+1. Deployment Environment
+The application is deployed on AWS EC2 Ubuntu 24 with sequrity group.
+
+2. Infrastructure Used
+
+- AWS EC2
+- Docker Engine
+- Jenkins CI/CD (local)
+- PostgreSQL Container
+- Nginx Reverse Proxy 
+- Prometheus(container)
+- Grafana(conatiner)
+
+3. Deployment Method
+
+stage 1 Developer pushes code to GitHub.
+stage 2. Jenkins pipeline is triggered automatically.
+stage 3. Jenkins pulls latest code.
+stage 4. Docker images are built.
+stage 5. Docker Compose deploys containers.
+stage 6. Application becomes available on ec2-instance.
+
+4. Public acees url
+
+Application:
+http://3.108.196.139:3001(production) 
+http:/3.108.196.139:3002(staging)
+
+Jenkins:
+http://172.19.182.203:8080
+
+Grafana:
+http://172.19.182.203:3000
+
+Deployed application Ec2:
+http://3.108.196.139:3001
+http://3.108.196.139:3002
+
+
+5. Reverse Proxy Details
+
+Nginx is configured as reverse proxy.
+- Route traffic to Node.js application
+- Handle HTTP requests
+
+6. Environment Configuration
+
+Separate environment variables are maintained for:
+- Staging
+- Production
+
+7. Monitoring Details
+Monitoring stack includes:
+- Prometheus for metrics collection
+- Grafana for visualization
+- Node Exporter for server metrics
+
+
+
+
+ 
