@@ -45,14 +45,15 @@ pipeline {
             when {
                 branch 'stage'
             }
+
             steps {
                 sshagent(['ec2-ssh-key']) {
                     sh """
-                        ssh -o StrictHostKeyChecking=no ubuntu@3.108.196.139'
-                        cd /home/ubuntu/devops &&
-                        docker pull ${IMAGE_NAME}:stage &&
-                        docker compose -f docker-compose_staging.yml down &&
-                        docker compose -f docker-compose_staging.yml up -d
+                        ssh -o StrictHostKeyChecking=no ubuntu@3.108.196.139 '
+                            cd /home/ubuntu/devops &&
+                            docker pull ${IMAGE_NAME}:stage &&
+                            docker compose -f docker-compose_staging.yml down &&
+                            docker compose -f docker-compose_staging.yml up -d
                         '
                     """
                 }
@@ -63,14 +64,15 @@ pipeline {
             when {
                 branch 'main'
             }
+
             steps {
                 sshagent(['ec2-ssh-key']) {
                     sh """
-                        ssh -o StrictHostKeyChecking=no ubuntu@3.108.196.139'
-                        cd /home/ubuntu/devops &&
-                        docker pull ${IMAGE_NAME}:main &&
-                        docker compose -f docker-compose_production.yml down &&
-                        docker compose -f docker-compose_production.yml up -d
+                        ssh -o StrictHostKeyChecking=no ubuntu@3.108.196.139 '
+                            cd /home/ubuntu/devops &&
+                            docker pull ${IMAGE_NAME}:main &&
+                            docker compose -f docker-compose_production.yml down &&
+                            docker compose -f docker-compose_production.yml up -d
                         '
                     """
                 }
