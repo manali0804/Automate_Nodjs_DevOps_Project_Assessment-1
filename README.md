@@ -71,4 +71,3 @@ DevOps_project/
 ├── Jenkinsfile
 ├── nginx_configurtion/
 │   └── nginx.conf
-
