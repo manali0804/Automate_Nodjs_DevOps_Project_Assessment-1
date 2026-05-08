@@ -66,7 +66,7 @@ pipeline {
             steps {
                 sshagent(['ec2-ssh-key']) {
                     sh """
-                        ssh -o StrictHostKeyChecking=no ubuntu@YOUR_EC2_IP '
+                        ssh -o StrictHostKeyChecking=no ubuntu@3.108.196.139'
                         cd /home/ubuntu/devops &&
                         docker pull ${IMAGE_NAME}:main &&
                         docker compose -f docker-compose_production.yml down &&
