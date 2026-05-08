@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
         SSH_CREDENTIALS = credentials('ec2-ssh-key')
-        IMAGE_NAME = "manalitekawade0804/nodjsapp/devops-app"
+        IMAGE_NAME = "manalitekawade0804/nodejsapp"
     }
 
     stages {
@@ -19,7 +19,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t $IMAGE_NAME:${env.BRANCH_NAME} ."
+                sh "docker build -t $IMAGE_NAME:${env.BRANCH_NAME} ./App"
             }
         }
 
@@ -40,13 +40,13 @@ pipeline {
                 branch 'develop'
             }
             steps {
-                sshagent(['ec2-ssh-key-id']) {
+                sshagent(['ec2-ssh']) {
                     sh """
                     ssh -o StrictHostKeyChecking=no ubuntu@YOUR_EC2_IP '
+                    cd /home/ubuntu/devops &&
                     docker pull $IMAGE_NAME:develop &&
-                    docker stop app_staging || true &&
-                    docker rm app_staging || true &&
-                    docker run -d --name app_staging -p 3002:3001 $IMAGE_NAME:develop
+                    docker compose -f docker-compose_staging.yml down &&
+                    docker compose -f docker-compose_staging.yml up -d
                     '
                     """
                 }
@@ -58,13 +58,13 @@ pipeline {
                 branch 'main'
             }
             steps {
-                sshagent(['ec2-ssh-key-id']) {
+                sshagent(['ec2-ssh']) {
                     sh """
                     ssh -o StrictHostKeyChecking=no ubuntu@YOUR_EC2_IP '
+                    cd /home/ubuntu/devops &&
                     docker pull $IMAGE_NAME:main &&
-                    docker stop app_prod || true &&
-                    docker rm app_prod || true &&
-                    docker run -d --name app_prod -p 3001:3001 $IMAGE_NAME:main
+                    docker compose -f docker-compose_production.yml down &&
+                    docker compose -f docker-compose_production.yml up -d
                     '
                     """
                 }
