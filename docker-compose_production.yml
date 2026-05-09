@@ -1,26 +1,29 @@
 version: '3.8'
 
 services:
+
   app:
-    build:
-      context: ./App
-      args:
-        NODE_ENV: production
+    image: manalitekawade0804/nodejsapp:main
     container_name: app_prod
+    restart: always
+
     env_file:
       - App/.env.production
+
     ports:
       - "3001:3001"
 
   db:
     image: postgres:15
     container_name: db_prod
+    restart: always
+
     environment:
       POSTGRES_DB: users_prod
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-    volumes:
-      - pgdata:/var/lib/postgresql/data
 
+    volumes:
+      - pgdata_prod:/var/lib/postgresql/data
 volumes:
-  pgdata:
+  pgdata_prod:

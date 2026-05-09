@@ -2,20 +2,31 @@ version: '3.8'
 
 services:
   app:
-    build:
-      context: ./App
-      args:
-        NODE_ENV: staging
+    image: manalitekawade0804/nodejsapp:stage
     container_name: app_staging
+    restart: always
+
     env_file:
       - App/.env.staging
+
     ports:
       - "3002:3001"
+
+    depends_on:
+      - db
 
   db:
     image: postgres:15
     container_name: db_staging
+    restart: always
+
     environment:
       POSTGRES_DB: users_staging
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+
+    volumes:
+      - pgdata_staging:/var/lib/postgresql/data
+
+volumes:
+  pgdata_staging:
