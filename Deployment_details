@@ -1,4 +1,4 @@
-
+-------------------------------------------------------------------------------------------------------------
 1. Deployment Environment
 The application is deployed on AWS EC2 Ubuntu 24 with sequrity group.
 
