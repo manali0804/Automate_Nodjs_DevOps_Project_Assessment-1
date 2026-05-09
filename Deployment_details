@@ -1,4 +1,5 @@
--------------------------------------------------------------------------------------------------------------
+___________________________________________________________________________________________________
+
 1. Deployment Environment
 The application is deployed on AWS EC2 Ubuntu 24 with sequrity group.
 
@@ -55,7 +56,7 @@ Monitoring stack includes:
 - Prometheus for metrics collection
 - Grafana for visualization
 - Node Exporter for collect server metrics
-
+____________________________________________________________________________________________________--
 
 
 
