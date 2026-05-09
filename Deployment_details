@@ -54,7 +54,7 @@ Separate environment variables are maintained for:
 Monitoring stack includes:
 - Prometheus for metrics collection
 - Grafana for visualization
-- Node Exporter for server metrics
+- Node Exporter for collect server metrics
 
 
 
