@@ -10,4 +10,4 @@ scrape_configs:
   # Monitor Node Exporter
   - job_name: "node_exporter"
     static_configs:
-      - targets: ["host.docker.internal:9100"]  # On EC2, Node Exporter will use host network
+      - targets: ["host.docker.internal:9100"] 
