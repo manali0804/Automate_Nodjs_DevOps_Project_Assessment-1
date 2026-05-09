@@ -64,12 +64,12 @@ pipeline {
 
                             if [ "${env.BRANCH}" = "stage" ]; then
                                 docker compose -f docker-compose_staging.yml down &&
-                                docker compose -f docker-compose_staging.yml up -d
+                                docker compose -p staging -f docker-compose_staging.yml up -d
                             fi
 
                             if [ "${env.BRANCH}" = "main" ]; then
                                 docker compose -f docker-compose_production.yml down &&
-                                docker compose -f docker-compose_production.yml up -d
+                                docker compose -p production -f docker-compose_production.yml up -d
                             fi
                         '
                     """
