@@ -1,29 +1,36 @@
-# Automate_Nodjs_DevOps_Project_Assessment-1
-
-# Node.js DevOps Project
-
-Production-ready Node.js application deployed using Docker, Jenkins CI/CD, AWS EC2, Nginx reverse proxy, and Prometheus/Grafana monitoring.
-
----
+# Automate Node.js DevOps Project Assessment
 
 # Project Overview
+This project demonstrates a complete DevOps workflow for deploying a containerized Node.js application using:
 
-This project demonstrates a complete DevOps workflow for deploying a containerized Node.js application with PostgreSQL database on AWS infrastructure.
+Docker
+Docker Compose
+Jenkins CI/CD Pipeline
+Nginx Reverse Proxy
+GitHub Integration
+prometheus
+grafana
 
-The implementation includes:
+The goal of this project is to automate:
 
-- Node.js
-- PostgreSQL database
-- Docker containerization
-- Jenkins CI/CD pipeline
-- AWS EC2 deployment
-- Nginx reverse proxy
-- Prometheus & Grafana monitoring
-- Security best practices
-- Environment variable management
+Application build
+Docker image creation
+Container deployment
+Continuous Integration & Continuous Deployment (CI/CD)
+Monitor Application (grafana) 
 
----
 
+# Architecture
+Developer Pushes Code → GitHub Repository
+                            ↓
+                        Jenkins Pipeline
+                            ↓
+                    Build Docker Image
+                            ↓
+                 Docker Compose Deployment
+                            ↓
+                     Node.js Application
+                     
 # Technologies used
 
  Component | Technology 
@@ -37,6 +44,15 @@ The implementation includes:
  Version Control | GitHub 
 
 ---
+
+# Features
+Dockerized Node.js application
+Automated CI/CD pipeline using Jenkins
+Multi-environment deployment
+Nginx reverse proxy configuration
+GitHub integration with Jenkins
+Easy container management using Docker Compose
+Monitoring application using prometheus and grafana
 
 # Application Endpoints
 
@@ -71,3 +87,13 @@ DevOps_project/
 ├── Jenkinsfile
 ├── nginx_configurtion/
 │   └── nginx.conf
+
+# Prerequisites
+
+Before running the project, install:
+
+Docker
+Docker Compose
+Jenkins
+Git
+Node.js (optional for local testing)
