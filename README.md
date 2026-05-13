@@ -97,3 +97,8 @@ Docker Compose
 Jenkins
 Git
 Node.js (optional for local testing)
+
+# Clone Repository
+git clone https://github.com/manali0804/Automate_Nodjs_DevOps_Project_Assessment-1.git
+
+cd Automate_Nodjs_DevOps_Project_Assessment-1
