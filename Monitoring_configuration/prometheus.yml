@@ -2,12 +2,7 @@ global:
   scrape_interval: 15s
 
 scrape_configs:
-  # Monitor Prometheus itself
-  - job_name: "prometheus"
-    static_configs:
-      - targets: ["localhost:9090"]
 
-  # Monitor Node Exporter
-  - job_name: "node_exporter"
+  - job_name: "ec2_monitoring"
     static_configs:
-      - targets: ["host.docker.internal:9100"] 
+      - targets: ["host.docker.internal:9100"]

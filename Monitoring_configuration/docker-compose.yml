@@ -1,38 +1,23 @@
-version: "3.9"
+version: '3'
 
 services:
 
-  # Prometheus
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus
     container_name: prometheus
-    ports:
-      - "9090:9090"  # exposed to EC2 public IP
-    volumes:
-      - "/home/manali/DevOps_project/Monitoring_configuration/prometheus.yml:/etc/prometheus/prometheus.yml:ro"
-    command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
-  # Node Exporter (system metrics)
-  node-exporter:
-    image: prom/node-exporter:latest
-    container_name: node_exporter
-    network_mode: "host"
-    pid: "host"
-    restart: always
 
-  # Grafana
+    ports:
+      - "9090:9090"
+
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana
     container_name: grafana
-    ports:
-      - "3000:3000"  # exposed to EC2 public IP
-    environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-    volumes:
-      - grafana_data:/var/lib/grafana
-    depends_on:
-      - prometheus
 
-volumes:
-  grafana_data:
+    ports:
+      - "3000:3000"
