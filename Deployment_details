@@ -56,7 +56,7 @@ Monitoring stack includes:
 - Prometheus for metrics collection
 - Grafana for visualization
 - Node Exporter for collect server metrics
-____________________________________________________________________________________________________
+__________________________________________________________________________________________________
 
 
  
