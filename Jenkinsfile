@@ -5,7 +5,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
         SSH_KEY = credentials('ec2-ssh-key')
         IMAGE_NAME = "manalitekawade0804/nodejsapp"
-        EC2_HOST = "3.108.196.139"
+        EC2_HOST = "65.2.81.211"
         EC2_USER = "ubuntu"
     }
 
