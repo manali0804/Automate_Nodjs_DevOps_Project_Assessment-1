@@ -3,13 +3,13 @@
 # Project Overview
 This project demonstrates a complete DevOps workflow for deploying a containerized Node.js application using:
 
-Docker
-Docker Compose
-Jenkins CI/CD Pipeline
-Nginx Reverse Proxy
-GitHub Integration
-prometheus
-grafana
+Docker |
+Docker Compose | 
+Jenkins CI/CD Pipeline | 
+Nginx Reverse Proxy |
+GitHub Integration |
+prometheus |
+grafana |
 
 The goal of this project is to automate:
 
